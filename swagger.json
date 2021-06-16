@@ -51,6 +51,41 @@
                 }
             }
             }
+        },
+        "/users/login": {
+            "post" : {
+                "tags": [
+                    "users"
+                ],
+            "summary": "login user",
+            "description": "login user to the site",
+            "operationId": "loginUser",
+            "consumes": [
+                "application/json"
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "body",
+                    "description": "User to be registered to the application",
+                   "required": true,
+                   "schema": {
+                       "$ref": "#/definitions/User_Login"
+                   }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "User logged in Sucessfully"
+                },
+                "400": {
+                    "description": "Wrong Credentials"
+                }
+            }
+            }
         }
     },
     "definitions": {
@@ -63,6 +98,17 @@
                 "phono": {
                     "type": "integer",
                     "format": "int64"
+                }
+            }
+        },
+        "User_Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type":"string"
                 }
             }
         }
