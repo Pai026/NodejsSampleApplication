@@ -45,6 +45,9 @@
             "responses": {
                 "200": {
                     "description": "User Registered Sucessfully"
+                },
+                "400": {
+                    "description": "User Already Exists"
                 }
             }
             }
