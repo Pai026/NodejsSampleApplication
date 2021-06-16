@@ -1,0 +1,67 @@
+{
+    "swagger": "2.0",
+    "info" :{
+        "description": "This is a sample application api for register and login",
+        "version": "1.0.0",
+        "title": "Sample Application"
+    },
+    "host": "localhost:3000",
+    "tags":[
+        {
+            "name": "users",
+            "description": "Operations About Users"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/users/register": {
+            "post" : {
+                "tags": [
+                    "users"
+                ],
+            "summary": "register user",
+            "description": "register new user to the site and return one time password",
+            "operationId": "registerUser",
+            "consumes": [
+                "application/json"
+            ],
+            "produces": [
+                "application/json"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "body",
+                    "description": "User to be registered to the application",
+                   "required": true,
+                   "schema": {
+                       "$ref": "#/definitions/User_Register"
+                   }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "User Registered Sucessfully"
+                }
+            }
+            }
+        }
+    },
+    "definitions": {
+        "User_Register": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phono": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    }
+}
