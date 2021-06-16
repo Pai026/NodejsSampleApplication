@@ -18,7 +18,6 @@ async function addUsers(data) {
             password: hashedPass
         }
         const result = await Connection.db.db("SampleApplication").collection("users").insertOne(user);
-        console.log(`New User Added : ${result.insertedId}`)
         return {
             "username":email,
             "password":password,
