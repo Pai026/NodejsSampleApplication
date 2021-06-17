@@ -5,12 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var swaggerUi = require('swagger-ui-express')
 var swaggerDocument = require('./swagger.json')
-const {Connection} = require("./database/connection")
+const { Connection } = require("./common/dbConnection")
+const { Email } = require("./common/emailConfig")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 Connection.open()
+Email.open()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

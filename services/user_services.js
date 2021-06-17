@@ -1,6 +1,9 @@
 var generator = require('generate-password')
 var bcrypt = require("bcryptjs")
-const { Connection } = require("../database/connection");
+const nodemailer = require('nodemailer')
+const { Connection } = require("../common/dbConnection");
+const { Email } =require("../common/emailConfig")
+
 async function addUsers(data) {
     Connection.open() 
     const {email,phono} = data
@@ -18,6 +21,7 @@ async function addUsers(data) {
             password: hashedPass
         }
         const result = await Connection.db.db("SampleApplication").collection("users").insertOne(user);
+        sendMail(email,password)
         return {
             "username":email,
             "password":password,
@@ -51,6 +55,17 @@ async function loginUser(data) {
         status: 404,
         "error":"Please Check username or password"
     }
+}
+
+async function sendMail(email,pass) {
+    Email.open();
+    let info = await Email.transport.sendMail({
+        from: '"Arnold Eichmann" <arnold.eichmann@ethereal.email>',
+        to: email,
+        subject: "Your Username and Password",
+        text: "Welcome to NodeSampleApplication",
+        html: `<p>Your Username is ${email} and Password is ${pass}</p>`
+    })
 }
 
 module.exports = {addUsers,loginUser}
