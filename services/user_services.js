@@ -9,7 +9,10 @@ var ObjectId = require('mongodb').ObjectID
 async function addUsers(data) {
     Connection.open() 
     const {email,phono} = data
-    const findUser = await Connection.db.db("SampleApplication").collection("users").findOne({email:email})
+    var isValidEmail = validateEmail(email)
+    var isValidPhone = validatePhoneNumber(phono)
+    if(isValidEmail && isValidPhone){
+        const findUser = await Connection.db.db("SampleApplication").collection("users").findOne({email:email})
     if(!findUser){
         var password = generator.generate({
             length:10,
@@ -36,6 +39,12 @@ async function addUsers(data) {
             status:400
         }
     }
+    }
+    return {
+        "error": "Please Check Email or PhoneNumber Format",
+        status:400
+    }
+    
 }
 
 async function loginUser(data) {
@@ -58,6 +67,16 @@ async function loginUser(data) {
         status: 404,
         "error":"Please Check username or password"
     }
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function validatePhoneNumber(phno) {
+    var re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    return re.test(String(phno));
 }
 
 async function getUser(token) {

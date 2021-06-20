@@ -10,8 +10,8 @@ router.get('/', function(req, res, next) {
 router.post('/register',async function(req,res) {
   const data = req.body
   var response = await addUsers(data)
-  if(response.status == 400)
-    res.statusCode = 400
+  res.statusCode = response.status
+  delete response.status
   res.send({
     "data":{
       response
@@ -22,8 +22,8 @@ router.post('/register',async function(req,res) {
 router.post('/login',async function(req,res) {
   const data = req.body
   var response = await loginUser(data)
-  if(response.status ==404)
-    res.statusCode = 404
+  res.statusCode = response.status
+  delete response.status
   res.send({
     "data":{
       response
