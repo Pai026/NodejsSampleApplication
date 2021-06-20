@@ -16,6 +16,12 @@ npm i
 
 npm run start
 
+Application would be started at localhost:3000 navigate to localhost:3000
+
+## To View Swagger Documentation
+
+Navigate to localhost:3000/api-docs
+
 # Using Pretty Formatting
 
 npm run pretty
