@@ -1,8 +1,10 @@
 var generator = require('generate-password')
 var bcrypt = require("bcryptjs")
-const nodemailer = require('nodemailer')
-const { Connection } = require("../common/dbConnection");
-const { Email } =require("../common/emailConfig")
+var nodemailer = require('nodemailer')
+var { Connection } = require("../common/dbConnection");
+var { Email } =require("../common/emailConfig")
+var jwt = require('jsonwebtoken');
+var ObjectId = require('mongodb').ObjectID
 
 async function addUsers(data) {
     Connection.open() 
@@ -41,19 +43,46 @@ async function loginUser(data) {
     const {email,password}=data
     const findUser = await Connection.db.db("SampleApplication").collection("users").findOne({email:email})
     if(findUser){
-        console.log("here")
         var isCorrectPassword = await bcrypt.compare(password,findUser.password)
+        var token = jwt.sign({id:findUser._id},process.env.SECRET,{expiresIn:86400});
         if(isCorrectPassword)
         {
             return {
                 status:200,
-                "login":true
+                "login":true,
+                "token":token
             }
         }
     }
     return {
         status: 404,
         "error":"Please Check username or password"
+    }
+}
+
+async function getUser(token) {
+    Connection.open()
+    var id;
+    jwt.verify(token,process.env.SECRET,function(err,decoded) {
+        if(err) return {
+            status:500,
+            auth: false,
+            "error": "Failed to authenticate token"
+        }
+        id = decoded.id
+    })
+    console.log(id)
+    const findUser = await Connection.db.db("SampleApplication").collection("users").findOne({_id:ObjectId(id)})
+    delete findUser.password
+    if(findUser) {
+        return {
+            status:200,
+            "user":findUser
+        }
+    }
+    return {
+        status:404,
+        "error":"user not found"
     }
 }
 
@@ -68,4 +97,4 @@ async function sendMail(email,pass) {
     })
 }
 
-module.exports = {addUsers,loginUser}
+module.exports = {addUsers,loginUser,getUser}

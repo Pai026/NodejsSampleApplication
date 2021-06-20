@@ -86,6 +86,45 @@
                 }
             }
             }
+        },
+        "/users/getUser": {
+            "get":{
+                "tags":[
+                    "users"
+                ],
+                "summary":"get current user",
+                "description":"get the details of the current user",
+                "operationId":"getUser",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retreived User Details"
+                    },
+                    "404": {
+                        "description": "No user found"
+                    },
+                    "500": {
+                        "description":  "Internal Server error/token error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
         }
     },
     "definitions": {

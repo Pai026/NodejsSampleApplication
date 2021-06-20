@@ -1,4 +1,4 @@
-var { addUsers,loginUser } = require('../services/user_services');
+var { addUsers,loginUser, getUser } = require('../services/user_services');
 var express = require('express');
 var router = express.Router();
 
@@ -29,6 +29,19 @@ router.post('/login',async function(req,res) {
       response
     }
   })
+})
+
+router.get('/getUser',async function(req,res) {
+  const token = req.headers["api_key"]
+  var response = await getUser(token)
+  res.statusCode = response.status
+  delete response.status
+    res.send({
+      "data":
+      {
+        response
+      }
+    })
 })
 
 module.exports = router;
