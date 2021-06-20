@@ -1,155 +1,134 @@
 {
-    "swagger": "2.0",
-    "info" :{
-        "description": "This is a sample application api for register and login",
-        "version": "1.0.0",
-        "title": "Sample Application"
-    },
-    "host": "localhost:3000",
-    "tags":[
-        {
-            "name": "users",
-            "description": "Operations About Users"
-        }
-    ],
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "paths": {
-        "/users/register": {
-            "post" : {
-                "tags": [
-                    "users"
-                ],
-            "summary": "register user",
-            "description": "register new user to the site and return one time password",
-            "operationId": "registerUser",
-            "consumes": [
-                "application/json"
-            ],
-            "produces": [
-                "application/json"
-            ],
-            "parameters": [
-                {
-                    "in": "body",
-                    "name": "body",
-                    "description": "User to be registered to the application",
-                   "required": true,
-                   "schema": {
-                       "$ref": "#/definitions/User_Register"
-                   }
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "User Registered Sucessfully"
-                },
-                "400": {
-                    "description": "User Already Exists"
-                }
-            }
-            }
-        },
-        "/users/login": {
-            "post" : {
-                "tags": [
-                    "users"
-                ],
-            "summary": "login user",
-            "description": "login user to the site",
-            "operationId": "loginUser",
-            "consumes": [
-                "application/json"
-            ],
-            "produces": [
-                "application/json"
-            ],
-            "parameters": [
-                {
-                    "in": "body",
-                    "name": "body",
-                    "description": "User to be registered to the application",
-                   "required": true,
-                   "schema": {
-                       "$ref": "#/definitions/User_Login"
-                   }
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "User logged in Sucessfully"
-                },
-                "400": {
-                    "description": "Wrong Credentials"
-                }
-            }
-            }
-        },
-        "/users/getUser": {
-            "get":{
-                "tags":[
-                    "users"
-                ],
-                "summary":"get current user",
-                "description":"get the details of the current user",
-                "operationId":"getUser",
-                "consumes":[
-                    "application/json"
-                ],
-                "produces":[
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Retreived User Details"
-                    },
-                    "404": {
-                        "description": "No user found"
-                    },
-                    "500": {
-                        "description":  "Internal Server error/token error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth":[]
-                    }
-                ]
-            }
-        }
-    },
-    "securityDefinitions": {
-        "bearerAuth": {
-            "type": "apiKey",
-            "name": "api_key",
-            "in": "header"
-        }
-    },
-    "definitions": {
-        "User_Register": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "phono": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "User_Login": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type":"string"
-                }
-            }
-        }
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample application api for register and login",
+    "version": "1.0.0",
+    "title": "Sample Application"
+  },
+  "host": "localhost:3000",
+  "tags": [
+    {
+      "name": "users",
+      "description": "Operations About Users"
     }
+  ],
+  "schemes": ["http", "https"],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["users"],
+        "summary": "register user",
+        "description": "register new user to the site and return one time password",
+        "operationId": "registerUser",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User to be registered to the application",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User_Register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Registered Sucessfully"
+          },
+          "400": {
+            "description": "User Already Exists"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["users"],
+        "summary": "login user",
+        "description": "login user to the site",
+        "operationId": "loginUser",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User to be registered to the application",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User_Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in Sucessfully"
+          },
+          "400": {
+            "description": "Wrong Credentials"
+          }
+        }
+      }
+    },
+    "/users/getUser": {
+      "get": {
+        "tags": ["users"],
+        "summary": "get current user",
+        "description": "get the details of the current user",
+        "operationId": "getUser",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Retreived User Details"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "500": {
+            "description": "Internal Server error/token error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User_Register": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "phono": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "User_Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }
