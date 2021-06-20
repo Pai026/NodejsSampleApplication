@@ -1,10 +1,10 @@
 var generator = require('generate-password')
 var bcrypt = require("bcryptjs")
-var nodemailer = require('nodemailer')
 var { Connection } = require("../common/dbConnection");
 var { Email } =require("../common/emailConfig")
 var jwt = require('jsonwebtoken');
-var ObjectId = require('mongodb').ObjectID
+var ObjectId = require('mongodb').ObjectID;
+const { verifyToken } = require('../common/jwtUtilFunctions');
 
 async function addUsers(data) {
     Connection.open() 
@@ -81,16 +81,12 @@ function validatePhoneNumber(phno) {
 
 async function getUser(token) {
     Connection.open()
-    var id;
-    jwt.verify(token,process.env.SECRET,function(err,decoded) {
-        if(err) return {
-            status:500,
-            auth: false,
-            "error": "Failed to authenticate token"
-        }
-        id = decoded.id
-    })
-    console.log(id)
+    var isVerify = verifyToken(token)
+    if(isVerify.status == 200)
+        var id=isVerify.decoded.id;
+    else {
+        return isVerify
+    }
     const findUser = await Connection.db.db("SampleApplication").collection("users").findOne({_id:ObjectId(id)})
     delete findUser.password
     if(findUser) {
