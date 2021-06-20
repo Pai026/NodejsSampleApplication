@@ -13,9 +13,7 @@ router.post('/register',async function(req,res) {
   res.statusCode = response.status
   delete response.status
   res.send({
-    "data":{
       response
-    }
   })
 })
 
@@ -25,9 +23,7 @@ router.post('/login',async function(req,res) {
   res.statusCode = response.status
   delete response.status
   res.send({
-    "data":{
       response
-    }
   })
 })
 
@@ -37,10 +33,7 @@ router.get('/getUser',async function(req,res) {
   res.statusCode = response.status
   delete response.status
     res.send({
-      "data":
-      {
         response
-      }
     })
 })
 
